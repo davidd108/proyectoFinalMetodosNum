@@ -1,31 +1,31 @@
-# Ejemplo lagrange
 from sympy import *
 import matplotlib.pyplot as plt
 import numpy as np
-
-x = [0,0.33,0.66,1]
-y = [1,1.391,1.935,2.718]
+# 77,68,70,59,58,64,72,57,63]
+# ,425,346,267,368,295,487,481,374,252]
+x = [67,52,56,66,65,80]
+y = [481,292,357,396,345,469]
 
 pL = ''
-for k in range(len(x)):
-    pL +=  str(y[k]) + '* ('
+for k in range(len(y)):
+    pL += str(y[k]) +'*'
     Lxk = 1
-    for j in range(len(x)):
-        if (j == k):
+    for i in range(len(x)):
+        if (i == k):
             continue
-        pL += '(x - %f)*'%(x[j])
-        Lxk *= x[k] - x[j]
-    pL = pL[:-1] + '/%f) +'%(Lxk) 
+        pL += '(x - %f)*'%(x[i])
+        Lxk *= (x[k]-x[i])
+    pL = pL[:-1]
+    pL += '/%f+'%(Lxk)
 pL = pL[:-1]
 
 expr = sympify(pL)
-expr = expand(expr)
-print(expr)
+#expr = expand(expr)
+print(expand(expr))
+plt.plot(x,y,'go')
 
-plt.plot(x,y,'ro')
-x2 = np.linspace(0,1,100)
-y2 = []
+x2 = np.linspace(52,80,100)
 x = symbols('x')
-for i in range(len(x2)):
-    y2.append(expr.subs(x,x2[i]))
+y2 = [expr.subs(x,xi) for xi in x2]
 plt.plot(x2,y2)
+plt.grid()
